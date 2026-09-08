@@ -12,7 +12,7 @@
     <artifactId>spring-profile-service</artifactId>
     <version>0.0.1-SNAPSHOT</version>
     <name>spring-profile-service</name>
-    <description>Java project built with Spring Boot</description>
+    <description>Java project built with Spring Boot and MongoDB</description>
 
     <repositories>
         <repository>
@@ -28,7 +28,6 @@
         <lombok.version>1.18.36</lombok.version>
         <mapstruct.version>1.6.3</mapstruct.version>
         <apache.commons.csv.version>1.14.1</apache.commons.csv.version>
-        <apache.commons.lang3.version>3.20.0</apache.commons.lang3.version>
     </properties>
 
     <dependencies>
@@ -63,11 +62,6 @@
         <!--Spring ends here-->
 
         <!-- Utilities starts here-->
-        <dependency>
-            <groupId>org.apache.commons</groupId>
-            <artifactId>commons-lang3</artifactId>
-            <version>${apache.commons.lang3.version}</version>
-        </dependency>
         <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>

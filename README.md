@@ -1,6 +1,6 @@
 # Spring Profile Service
 
-REST API developed with Java 21 and Spring Boot 4..
+REST API developed with Java 21 and Spring Boot 4 and MongoDB.
 
 ## Requirements
 
@@ -44,6 +44,7 @@ To pull the `spring-common-parent` dependency, follow these steps:
 
 ## Run App
 
+- Create the required [Database Setup](#database-setup) steps.
 - Run the `SpringProfileServiceApplication` class as Java Application.
 
 ## Database Setup
@@ -54,6 +55,22 @@ Create the `profile_db` database and the required collections and indexes.
 
 ```javascript
 use profile_db
+```
+
+**Create collection:**
+
+```javascript
+db.createCollection("profiles");
+```
+
+**Create index:**
+
+```javascript
+// Ensures each combination of firstName and lastName is unique.
+db.profiles.createIndex(
+  { firstName: 1, lastName: 1 },
+  { unique: true }
+)
 ```
 
 ## Collection
