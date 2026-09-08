@@ -1,0 +1,133 @@
+{
+  "info": {
+    "_postman_id": "46c32366-f90d-4edb-96ac-26f4df89aad0",
+    "name": "Spring Profile Service",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "_exporter_id": "3559566"
+  },
+  "item": [
+    {
+      "name": "Health Check",
+      "item": [
+        {
+          "name": "GET Actuator Health",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/spring-profile-service/actuator/health",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "spring-profile-service",
+                "actuator",
+                "health"
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Profiles",
+      "item": [
+        {
+          "name": "GET All",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/spring-profile-service/profiles",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "spring-profile-service",
+                "profiles"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "GET by Id",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/spring-profile-service/profiles/6aa07cffa7bedd34b89d64b2",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "spring-profile-service",
+                "profiles",
+                "6aa07cffa7bedd34b89d64b2"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "POST Upsert",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"firstName\": \"John\",\r\n    \"lastName\": \"Doe\",\r\n    \"dateOfBirth\": \"1990-05-21\",\r\n    \"numberOfDependents\": 2,\r\n    \"estimatedAnnualIncome\": 85000.50,\r\n    \"estimatedNetWorth\": 250000.75,\r\n    \"gender\": \"MALE\",\r\n    \"maritalStatus\": \"MARRIED\",\r\n    \"contacts\": [\r\n        {\r\n            \"contactType\": \"EMAIL\",\r\n            \"contactValue\": \"john.doe@example.com\"\r\n        },\r\n        {\r\n            \"contactType\": \"PHONE\",\r\n            \"contactValue\": \"+5511999999999\"\r\n        }\r\n    ],\r\n    \"address\": {\r\n        \"address\": \"123 Main Street\",\r\n        \"city\": \"São Paulo\",\r\n        \"state\": \"SP\",\r\n        \"country\": \"Brazil\",\r\n        \"postalCode\": \"11310-100\"\r\n    }\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{base_url}}/spring-profile-service/profiles",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "spring-profile-service",
+                "profiles"
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    }
+  ],
+  "event": [
+    {
+      "listen": "prerequest",
+      "script": {
+        "type": "text/javascript",
+        "packages": {},
+        "requests": {},
+        "exec": [
+          ""
+        ]
+      }
+    },
+    {
+      "listen": "test",
+      "script": {
+        "type": "text/javascript",
+        "packages": {},
+        "requests": {},
+        "exec": [
+          ""
+        ]
+      }
+    }
+  ],
+  "variable": [
+    {
+      "key": "base_url",
+      "value": "http://localhost:8080"
+    }
+  ]
+}
