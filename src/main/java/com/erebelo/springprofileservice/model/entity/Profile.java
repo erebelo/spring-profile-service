@@ -112,7 +112,9 @@ public class Profile extends BaseEntity implements SoftValidationAware {
 
         @SoftValidation
         @NotBlank
-        private String address;
+        private String addressLine1;
+
+        private String addressLine2;
 
         @SoftValidation
         @NotBlank

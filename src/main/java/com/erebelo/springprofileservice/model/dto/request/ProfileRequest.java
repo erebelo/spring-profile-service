@@ -45,6 +45,7 @@ public record ProfileRequest(String firstName, String lastName,
     @Builder(toBuilder = true)
     @JsonInclude(JsonInclude.Include.NON_NULL)
     @JsonIgnoreProperties(ignoreUnknown = true)
-    public record ProfileAddressRequest(String address, String city, String state, String country, String postalCode) {
+    public record ProfileAddressRequest(String addressLine1, String addressLine2, String city, String state,
+            String country, String postalCode) {
     }
 }
