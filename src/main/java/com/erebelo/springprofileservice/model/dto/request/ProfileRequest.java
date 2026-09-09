@@ -6,9 +6,6 @@ import com.erebelo.springprofileservice.model.enums.MaritalStatus;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
-import jakarta.validation.Valid;
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotNull;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.List;
@@ -18,27 +15,10 @@ import org.jspecify.annotations.NonNull;
 @Builder(toBuilder = true)
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @JsonIgnoreProperties(ignoreUnknown = true)
-public record ProfileRequest(
-
-        @NotBlank String firstName,
-
-        @NotBlank String lastName,
-
-        @JsonFormat(pattern = "yyyy-MM-dd") LocalDate dateOfBirth,
-
-        Integer numberOfDependents,
-
-        BigDecimal estimatedAnnualIncome,
-
-        BigDecimal estimatedNetWorth,
-
-        Gender gender,
-
-        MaritalStatus maritalStatus,
-
-        List<@Valid ProfileContactRequest> contacts,
-
-        ProfileAddressRequest address) {
+public record ProfileRequest(String firstName, String lastName,
+        @JsonFormat(pattern = "yyyy-MM-dd") LocalDate dateOfBirth, Integer numberOfDependents,
+        BigDecimal estimatedAnnualIncome, BigDecimal estimatedNetWorth, Gender gender, MaritalStatus maritalStatus,
+        List<ProfileContactRequest> contacts, ProfileAddressRequest address) {
 
     private String maskDateOfBirth() {
         if (dateOfBirth != null) {
@@ -59,7 +39,7 @@ public record ProfileRequest(
     @Builder(toBuilder = true)
     @JsonInclude(JsonInclude.Include.NON_NULL)
     @JsonIgnoreProperties(ignoreUnknown = true)
-    public record ProfileContactRequest(@NotNull ContactType contactType, @NotBlank String contactValue) {
+    public record ProfileContactRequest(ContactType contactType, String contactValue) {
     }
 
     @Builder(toBuilder = true)

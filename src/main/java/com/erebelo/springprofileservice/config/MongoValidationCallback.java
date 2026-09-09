@@ -1,8 +1,8 @@
 package com.erebelo.springprofileservice.config;
 
+import com.erebelo.springprofileservice.validation.ValidationService;
 import jakarta.validation.ConstraintViolation;
 import jakarta.validation.ConstraintViolationException;
-import jakarta.validation.Validator;
 import java.util.Set;
 import lombok.RequiredArgsConstructor;
 import org.jspecify.annotations.NonNull;
@@ -18,14 +18,14 @@ import org.springframework.stereotype.Component;
 @RequiredArgsConstructor
 public class MongoValidationCallback implements BeforeConvertCallback<@NonNull Object> {
 
-    private final Validator validator;
+    private final ValidationService validationService;
 
     @Override
     public Object onBeforeConvert(Object entity, @NonNull String collection) {
-        Set<ConstraintViolation<Object>> violations = validator.validate(entity);
+        Set<ConstraintViolation<Object>> hardViolations = validationService.validate(entity);
 
-        if (!violations.isEmpty()) {
-            throw new ConstraintViolationException(violations);
+        if (!hardViolations.isEmpty()) {
+            throw new ConstraintViolationException(hardViolations);
         }
 
         return entity;

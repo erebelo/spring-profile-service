@@ -4,6 +4,7 @@ import com.erebelo.springprofileservice.model.enums.ContactType;
 import com.erebelo.springprofileservice.model.enums.Gender;
 import com.erebelo.springprofileservice.model.enums.MaritalStatus;
 import com.erebelo.springprofileservice.validation.SoftValidation;
+import com.erebelo.springprofileservice.validation.SoftValidationAware;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.DecimalMax;
@@ -32,7 +33,7 @@ import org.springframework.data.mongodb.core.mapping.Document;
 @AllArgsConstructor
 @EqualsAndHashCode(callSuper = true)
 @Document(collection = "profiles")
-public class Profile extends BaseEntity {
+public class Profile extends BaseEntity implements SoftValidationAware {
 
     @Id
     private String id;
@@ -78,6 +79,8 @@ public class Profile extends BaseEntity {
     @NotNull
     private ProfileAddress address;
 
+    private List<SoftValidationFailure> softValidationFailures;
+
     @ToString.Include(name = "dateOfBirth", rank = 1)
     public String maskDateOfBirth() {
         if (dateOfBirth != null) {
@@ -92,6 +95,7 @@ public class Profile extends BaseEntity {
     @AllArgsConstructor
     public static class ProfileContact {
 
+        @SoftValidation
         @NotNull
         private ContactType contactType;
 
@@ -122,7 +126,6 @@ public class Profile extends BaseEntity {
         @NotBlank
         private String country;
 
-        @SoftValidation
         @NotBlank
         private String postalCode;
 

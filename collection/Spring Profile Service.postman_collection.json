@@ -57,14 +57,14 @@
             "method": "GET",
             "header": [],
             "url": {
-              "raw": "{{base_url}}/spring-profile-service/profiles/6aa07cffa7bedd34b89d64b2",
+              "raw": "{{base_url}}/spring-profile-service/profiles/6aa0a43c869d568c06f1e58e",
               "host": [
                 "{{base_url}}"
               ],
               "path": [
                 "spring-profile-service",
                 "profiles",
-                "6aa07cffa7bedd34b89d64b2"
+                "6aa0a43c869d568c06f1e58e"
               ]
             }
           },
@@ -78,6 +78,60 @@
             "body": {
               "mode": "raw",
               "raw": "{\r\n    \"firstName\": \"John\",\r\n    \"lastName\": \"Doe\",\r\n    \"dateOfBirth\": \"1990-05-21\",\r\n    \"numberOfDependents\": 2,\r\n    \"estimatedAnnualIncome\": 85000.50,\r\n    \"estimatedNetWorth\": 250000.75,\r\n    \"gender\": \"MALE\",\r\n    \"maritalStatus\": \"MARRIED\",\r\n    \"contacts\": [\r\n        {\r\n            \"contactType\": \"EMAIL\",\r\n            \"contactValue\": \"john.doe@example.com\"\r\n        },\r\n        {\r\n            \"contactType\": \"PHONE\",\r\n            \"contactValue\": \"+5511999999999\"\r\n        }\r\n    ],\r\n    \"address\": {\r\n        \"address\": \"123 Main Street\",\r\n        \"city\": \"São Paulo\",\r\n        \"state\": \"SP\",\r\n        \"country\": \"Brazil\",\r\n        \"postalCode\": \"11310-100\"\r\n    }\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{base_url}}/spring-profile-service/profiles",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "spring-profile-service",
+                "profiles"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "POST Upsert Hard-Validation",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"firstName\": null,\r\n    \"dateOfBirth\": \"1990-05-21\",\r\n    \"numberOfDependents\": 21,\r\n    \"estimatedAnnualIncome\": 85000.50,\r\n    \"estimatedNetWorth\": 250000.75,\r\n    \"gender\": null,\r\n    \"maritalStatus\": null,\r\n    \"contacts\": [\r\n        {\r\n            \"contactType\": \"EMAIL\",\r\n            \"contactValue\": \" \"\r\n        },\r\n        {\r\n            \"contactType\": \"EMAIL\",\r\n            \"contactValue\": \"john.doe@example.com\"\r\n        },\r\n        {\r\n            \"contactValue\": \"+5511999999999\"\r\n        },\r\n        {\r\n            \"contactValue\": null\r\n        }\r\n    ],\r\n    \"address\": {\r\n        \"address\": \" \",\r\n        \"city\": \"São Paulo\",\r\n        \"state\": null,\r\n        \"country\": \"Brazil\",\r\n        \"postalCode\": \" \"\r\n    }\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{base_url}}/spring-profile-service/profiles",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "spring-profile-service",
+                "profiles"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "POST Upsert Soft-Validation",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"firstName\": \"John\",\r\n    \"lastName\": \"Doe\",\r\n    \"dateOfBirth\": null,\r\n    \"numberOfDependents\": 21,\r\n    \"estimatedAnnualIncome\": 85000.50,\r\n    \"estimatedNetWorth\": 250000.75,\r\n    \"gender\": null,\r\n    \"maritalStatus\": null,\r\n    \"contacts\": [\r\n        {\r\n            \"contactType\": null,\r\n            \"contactValue\": \"john.doe@example.com\"\r\n        },\r\n        {\r\n            \"contactType\": \"EMAIL\",\r\n            \"contactValue\": \"john.doe1@example.com\"\r\n        },\r\n        {\r\n            \"contactValue\": \"+5511999999999\"\r\n        }\r\n    ],\r\n    \"address\": {\r\n        \"address\": null,\r\n        \"city\": \"São Paulo\",\r\n        \"state\": null,\r\n        \"country\": \"Brazil\",\r\n        \"postalCode\": \"11310-100\"\r\n    }\r\n}",
               "options": {
                 "raw": {
                   "language": "json"

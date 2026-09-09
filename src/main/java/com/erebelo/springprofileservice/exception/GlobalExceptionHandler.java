@@ -23,6 +23,7 @@ import org.springframework.web.method.annotation.MethodArgumentTypeMismatchExcep
 import org.springframework.web.servlet.resource.NoResourceFoundException;
 import tools.jackson.core.JacksonException;
 import tools.jackson.databind.exc.InvalidFormatException;
+import tools.jackson.databind.exc.InvalidTypeIdException;
 
 @Slf4j
 @RestControllerAdvice
@@ -52,21 +53,21 @@ public class GlobalExceptionHandler {
 
         String message = "Invalid request body.";
 
-        if (exception.getCause() instanceof InvalidFormatException invalidFormatException
-                && invalidFormatException.getTargetType().isEnum()) {
-            String field = invalidFormatException.getPath().stream().map(JacksonException.Reference::getPropertyName)
+        if (exception.getCause() instanceof InvalidFormatException e && e.getTargetType().isEnum()) {
+            String field = e.getPath().stream().map(JacksonException.Reference::getPropertyName)
                     .filter(Objects::nonNull).collect(Collectors.joining("."));
 
-            message = "Invalid value '%s' for field '%s'. Allowed values: %s.".formatted(
-                    invalidFormatException.getValue(), field, getEnumValues(invalidFormatException.getTargetType()));
+            message = "Invalid value '%s' for field '%s'. Allowed values: %s.".formatted(e.getValue(), field,
+                    getEnumValues(e.getTargetType()));
+        } else if (exception.getCause() instanceof InvalidTypeIdException e && e.getMessage() != null
+                && !e.getMessage().isBlank()) {
+            message = e.getMessage();
         }
 
         return createResponse(HttpStatus.BAD_REQUEST, message);
     }
 
-    /**
-     * Handles missing required request parameters.
-     */
+    /** Handles missing required request parameters. */
     @ExceptionHandler(MissingServletRequestParameterException.class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     ErrorResponse handleMissingServletRequestParameterException(MissingServletRequestParameterException exception) {
@@ -110,9 +111,7 @@ public class GlobalExceptionHandler {
         return createResponse(HttpStatus.BAD_REQUEST, message);
     }
 
-    /**
-     * Handles Bean Validation constraint violations on method parameters.
-     */
+    /** Handles Bean Validation constraint violations on method parameters. */
     @ExceptionHandler(ConstraintViolationException.class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     ErrorResponse handleConstraintViolationException(ConstraintViolationException exception) {
@@ -120,7 +119,6 @@ public class GlobalExceptionHandler {
 
         String message = exception.getConstraintViolations().stream().map(violation -> {
             String property = violation.getPropertyPath().toString();
-            property = property.substring(property.lastIndexOf('.') + 1);
 
             return "'%s' %s".formatted(property, violation.getMessage());
         }).sorted().collect(Collectors.joining(", ", "", "."));
@@ -130,9 +128,7 @@ public class GlobalExceptionHandler {
 
     // 404 - Not found
 
-    /**
-     * Handles application-level resource-not-found errors.
-     */
+    /** Handles application-level resource-not-found errors. */
     @ExceptionHandler(NotFoundException.class)
     @ResponseStatus(HttpStatus.NOT_FOUND)
     ErrorResponse handleNotFoundException(NotFoundException exception) {
@@ -141,9 +137,7 @@ public class GlobalExceptionHandler {
         return createResponse(HttpStatus.NOT_FOUND, exception);
     }
 
-    /**
-     * Handles requests to endpoints that do not exist.
-     */
+    /** Handles requests to endpoints that do not exist. */
     @ExceptionHandler(NoResourceFoundException.class)
     @ResponseStatus(HttpStatus.NOT_FOUND)
     ErrorResponse handleNoResourceFoundException(NoResourceFoundException exception) {
@@ -174,9 +168,7 @@ public class GlobalExceptionHandler {
 
     // 409 - Conflict
 
-    /**
-     * Handles application-level resource or state conflicts.
-     */
+    /** Handles application-level resource or state conflicts. */
     @ExceptionHandler(ConflictException.class)
     @ResponseStatus(HttpStatus.CONFLICT)
     ErrorResponse handleConflictException(ConflictException exception) {
@@ -187,9 +179,7 @@ public class GlobalExceptionHandler {
 
     // 500 - Server errors
 
-    /**
-     * Handles unexpected server-side exceptions not handled explicitly above.
-     */
+    /** Handles unexpected server-side exceptions not handled explicitly above. */
     @ExceptionHandler(Exception.class)
     @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
     ErrorResponse handleUnexpectedException(Exception exception) {
@@ -205,16 +195,12 @@ public class GlobalExceptionHandler {
         return Arrays.stream(enumType.getEnumConstants()).map(Object::toString).collect(Collectors.joining(", "));
     }
 
-    /**
-     * Creates an error response using an exception message.
-     */
+    /** Creates an error response using an exception message. */
     private ErrorResponse createResponse(HttpStatus status, Exception exception) {
         return createResponse(status, exception.getMessage());
     }
 
-    /**
-     * Creates an error response with a fallback message when necessary.
-     */
+    /** Creates an error response with a fallback message when necessary. */
     private ErrorResponse createResponse(HttpStatus status, String message) {
         if (message == null || message.isBlank()) {
             message = "No message available.";
