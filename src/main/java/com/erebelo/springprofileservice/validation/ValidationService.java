@@ -1,8 +1,11 @@
 package com.erebelo.springprofileservice.validation;
 
 import jakarta.validation.ConstraintViolation;
+import jakarta.validation.ElementKind;
 import jakarta.validation.Path;
 import jakarta.validation.Validator;
+import java.lang.reflect.AnnotatedParameterizedType;
+import java.lang.reflect.AnnotatedType;
 import java.lang.reflect.Field;
 import java.util.HashSet;
 import java.util.List;
@@ -66,29 +69,69 @@ public class ValidationService {
     }
 
     private boolean isSoftValidation(ConstraintViolation<?> violation) {
-        String fieldName = getLeafFieldName(violation.getPropertyPath());
+        Path.Node leafNode = getLeafNode(violation.getPropertyPath());
 
-        Object leafBean = violation.getLeafBean();
-
-        if (leafBean == null || fieldName == null) {
+        if (leafNode == null) {
             return false;
         }
 
-        Field field = findField(leafBean.getClass(), fieldName);
+        if (leafNode.getKind() == ElementKind.CONTAINER_ELEMENT) {
+            return isSoftContainerElement(violation);
+        }
+
+        Object leafBean = violation.getLeafBean();
+
+        if (leafBean == null || leafNode.getName() == null) {
+            return false;
+        }
+
+        Field field = findField(leafBean.getClass(), leafNode.getName());
 
         return field != null && field.isAnnotationPresent(SoftValidation.class);
     }
 
-    private String getLeafFieldName(Path path) {
+    private boolean isSoftContainerElement(ConstraintViolation<?> violation) {
+        String fieldName = getFirstFieldName(violation.getPropertyPath());
+
+        if (fieldName == null || violation.getRootBean() == null) {
+            return false;
+        }
+
+        Field field = findField(violation.getRootBean().getClass(), fieldName);
+
+        if (field == null) {
+            return false;
+        }
+
+        AnnotatedType type = field.getAnnotatedType();
+
+        if (!(type instanceof AnnotatedParameterizedType parameterizedType)) {
+            return false;
+        }
+
+        AnnotatedType elementType = parameterizedType.getAnnotatedActualTypeArguments()[0];
+
+        return elementType.isAnnotationPresent(SoftValidation.class);
+    }
+
+    private Path.Node getLeafNode(Path path) {
         Path.Node leafNode = null;
 
         for (Path.Node node : path) {
-            if (node.getName() != null) {
-                leafNode = node;
+            leafNode = node;
+        }
+
+        return leafNode;
+    }
+
+    private String getFirstFieldName(Path path) {
+        for (Path.Node node : path) {
+            if (node.getKind() == ElementKind.PROPERTY) {
+                return node.getName();
             }
         }
 
-        return leafNode != null ? leafNode.getName() : null;
+        return null;
     }
 
     private Field findField(Class<?> type, String fieldName) {
@@ -106,7 +149,8 @@ public class ValidationService {
     }
 
     private SoftValidationFailure toFailure(ConstraintViolation<?> violation) {
-        return SoftValidationFailure.builder().field(violation.getPropertyPath().toString())
+        return SoftValidationFailure.builder()
+                .field(violation.getPropertyPath().toString().replace(".<list element>", ""))
                 .message(violation.getMessage()).build();
     }
 }

@@ -18,15 +18,15 @@ import org.jspecify.annotations.NonNull;
 public record ProfileRequest(String firstName, String lastName,
         @JsonFormat(pattern = "yyyy-MM-dd") LocalDate dateOfBirth, Integer numberOfDependents,
         BigDecimal estimatedAnnualIncome, BigDecimal estimatedNetWorth, Gender gender, MaritalStatus maritalStatus,
-        List<ContactRequest> contacts, AddressRequest address) {
+        List<String> emailAddresses, List<ContactRequest> contacts, AddressRequest address) {
 
     @Override
     public @NonNull String toString() {
         return "ProfileRequest{" + "firstName=" + firstName + ", lastName=" + lastName + ", dateOfBirth="
                 + (dateOfBirth != null ? "****-**-" + dateOfBirth.getDayOfMonth() : null) + ", numberOfDependents="
                 + numberOfDependents + ", estimatedAnnualIncome=" + estimatedAnnualIncome + ", estimatedNetWorth="
-                + estimatedNetWorth + ", gender=" + gender + ", maritalStatus=" + maritalStatus + ", contacts="
-                + contacts + ", address=" + address + '}';
+                + estimatedNetWorth + ", gender=" + gender + ", maritalStatus=" + maritalStatus + ", emailAddresses="
+                + emailAddresses + ", contacts=" + contacts + ", address=" + address + "}";
     }
 
     @Builder(toBuilder = true)

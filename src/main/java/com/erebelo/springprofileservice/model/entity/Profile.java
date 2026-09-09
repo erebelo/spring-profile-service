@@ -1,5 +1,7 @@
 package com.erebelo.springprofileservice.model.entity;
 
+import static com.erebelo.springprofileservice.validation.ValidationConstants.EMAIL_PATTERN;
+
 import com.erebelo.springprofileservice.model.enums.ContactType;
 import com.erebelo.springprofileservice.model.enums.Gender;
 import com.erebelo.springprofileservice.model.enums.MaritalStatus;
@@ -15,6 +17,7 @@ import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Pattern;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.List;
@@ -72,6 +75,10 @@ public class Profile extends BaseEntity implements SoftValidationAware {
 
     @SoftValidation
     @NotEmpty
+    private List<@SoftValidation @NotBlank @Pattern(regexp = EMAIL_PATTERN, message = "must be valid") String> emailAddresses;
+
+    @SoftValidation
+    @NotEmpty
     private List<@Valid Contact> contacts;
 
     @SoftValidation
@@ -86,8 +93,9 @@ public class Profile extends BaseEntity implements SoftValidationAware {
         return "Profile{" + "id=" + id + ", firstName=" + firstName + ", lastName=" + lastName + ", dateOfBirth="
                 + (dateOfBirth != null ? "****-**-" + dateOfBirth.getDayOfMonth() : null) + ", numberOfDependents="
                 + numberOfDependents + ", estimatedAnnualIncome=" + estimatedAnnualIncome + ", estimatedNetWorth="
-                + estimatedNetWorth + ", gender=" + gender + ", maritalStatus=" + maritalStatus + ", contacts="
-                + contacts + ", address=" + address + ", softValidationFailures=" + softValidationFailures + '}';
+                + estimatedNetWorth + ", gender=" + gender + ", maritalStatus=" + maritalStatus + ", emailAddresses="
+                + emailAddresses + ", contacts=" + contacts + ", address=" + address + ", softValidationFailures="
+                + softValidationFailures + "}";
     }
 
     @Data
