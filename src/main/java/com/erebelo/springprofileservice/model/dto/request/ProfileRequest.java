@@ -20,20 +20,13 @@ public record ProfileRequest(String firstName, String lastName,
         BigDecimal estimatedAnnualIncome, BigDecimal estimatedNetWorth, Gender gender, MaritalStatus maritalStatus,
         List<ContactRequest> contacts, AddressRequest address) {
 
-    private String maskDateOfBirth() {
-        if (dateOfBirth != null) {
-            return "****-**-" + dateOfBirth.getDayOfMonth();
-        }
-        return null;
-    }
-
     @Override
     public @NonNull String toString() {
-        return "ProfileRequest[" + "firstName='" + firstName + '\'' + ", lastName='" + lastName + '\''
-                + ", dateOfBirth='" + maskDateOfBirth() + '\'' + ", numberOfDependents=" + numberOfDependents
-                + ", estimatedAnnualIncome=" + estimatedAnnualIncome + ", estimatedNetWorth=" + estimatedNetWorth
-                + ", gender=" + gender + ", maritalStatus=" + maritalStatus + ", contacts=" + contacts + ", address="
-                + address + ']';
+        return "ProfileRequest{" + "firstName=" + firstName + ", lastName=" + lastName + ", dateOfBirth="
+                + (dateOfBirth != null ? "****-**-" + dateOfBirth.getDayOfMonth() : null) + ", numberOfDependents="
+                + numberOfDependents + ", estimatedAnnualIncome=" + estimatedAnnualIncome + ", estimatedNetWorth="
+                + estimatedNetWorth + ", gender=" + gender + ", maritalStatus=" + maritalStatus + ", contacts="
+                + contacts + ", address=" + address + '}';
     }
 
     @Builder(toBuilder = true)

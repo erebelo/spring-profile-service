@@ -22,7 +22,6 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
-import lombok.ToString;
 import lombok.experimental.SuperBuilder;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
@@ -81,12 +80,13 @@ public class Profile extends BaseEntity implements SoftValidationAware {
 
     private List<SoftValidationFailure> softValidationFailures;
 
-    @ToString.Include(name = "dateOfBirth", rank = 1)
-    public String maskDateOfBirth() {
-        if (dateOfBirth != null) {
-            return "****-**-" + dateOfBirth.getDayOfMonth();
-        }
-        return null;
+    @Override
+    public String toString() {
+        return "Profile{" + "id=" + id + ", firstName=" + firstName + ", lastName=" + lastName + ", dateOfBirth="
+                + (dateOfBirth != null ? "****-**-" + dateOfBirth.getDayOfMonth() : null) + ", numberOfDependents="
+                + numberOfDependents + ", estimatedAnnualIncome=" + estimatedAnnualIncome + ", estimatedNetWorth="
+                + estimatedNetWorth + ", gender=" + gender + ", maritalStatus=" + maritalStatus + ", contacts="
+                + contacts + ", address=" + address + ", softValidationFailures=" + softValidationFailures + '}';
     }
 
     @Data
