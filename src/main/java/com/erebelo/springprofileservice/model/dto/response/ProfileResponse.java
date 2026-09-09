@@ -18,7 +18,7 @@ import org.jspecify.annotations.NonNull;
 public record ProfileResponse(String id, String firstName, String lastName,
         @JsonFormat(pattern = "yyyy-MM-dd") LocalDate dateOfBirth, Integer numberOfDependents,
         BigDecimal estimatedAnnualIncome, BigDecimal estimatedNetWorth, Gender gender, MaritalStatus maritalStatus,
-        List<ProfileContactResponse> contacts, ProfileAddressResponse address) {
+        List<ContactResponse> contacts, AddressResponse address) {
 
     private String maskDateOfBirth() {
         if (dateOfBirth != null) {
@@ -39,13 +39,13 @@ public record ProfileResponse(String id, String firstName, String lastName,
     @Builder(toBuilder = true)
     @JsonInclude(JsonInclude.Include.NON_NULL)
     @JsonIgnoreProperties(ignoreUnknown = true)
-    public record ProfileContactResponse(ContactType contactType, String contactValue) {
+    public record ContactResponse(ContactType contactType, String contactValue) {
     }
 
     @Builder(toBuilder = true)
     @JsonInclude(JsonInclude.Include.NON_NULL)
     @JsonIgnoreProperties(ignoreUnknown = true)
-    public record ProfileAddressResponse(String addressLine1, String addressLine2, String city, String state,
-            String country, String postalCode) {
+    public record AddressResponse(String addressLine1, String addressLine2, String city, String state, String country,
+            String postalCode) {
     }
 }

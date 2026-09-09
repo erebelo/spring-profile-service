@@ -72,12 +72,12 @@ public class Profile extends BaseEntity implements SoftValidationAware {
 
     @SoftValidation
     @NotEmpty
-    private List<@Valid ProfileContact> contacts;
+    private List<@Valid Contact> contacts;
 
     @SoftValidation
     @Valid
     @NotNull
-    private ProfileAddress address;
+    private Address address;
 
     private List<SoftValidationFailure> softValidationFailures;
 
@@ -93,7 +93,7 @@ public class Profile extends BaseEntity implements SoftValidationAware {
     @Builder(toBuilder = true)
     @NoArgsConstructor
     @AllArgsConstructor
-    public static class ProfileContact {
+    public static class Contact {
 
         @SoftValidation
         @NotNull
@@ -108,7 +108,7 @@ public class Profile extends BaseEntity implements SoftValidationAware {
     @Builder(toBuilder = true)
     @NoArgsConstructor
     @AllArgsConstructor
-    public static class ProfileAddress {
+    public static class Address {
 
         @SoftValidation
         @NotBlank
