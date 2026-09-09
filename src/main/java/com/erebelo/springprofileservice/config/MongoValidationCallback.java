@@ -11,7 +11,9 @@ import org.springframework.stereotype.Component;
 
 /**
  * Validates MongoDB domain objects before they are converted and persisted.
- * Applies to repository and MongoTemplate save/insert operations, but not to
+ * Uses {@link ValidationService} to apply hard and soft validation, returning
+ * hard violations and storing soft validation failures in the entity. Applies
+ * to repository and MongoTemplate save/insert operations, but not to
  * update/upsert operations using Update or AggregationUpdate.
  */
 @Component

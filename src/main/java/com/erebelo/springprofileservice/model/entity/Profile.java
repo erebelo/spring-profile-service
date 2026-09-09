@@ -5,6 +5,7 @@ import com.erebelo.springprofileservice.model.enums.Gender;
 import com.erebelo.springprofileservice.model.enums.MaritalStatus;
 import com.erebelo.springprofileservice.validation.SoftValidation;
 import com.erebelo.springprofileservice.validation.SoftValidationAware;
+import com.erebelo.springprofileservice.validation.SoftValidationFailure;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.DecimalMax;

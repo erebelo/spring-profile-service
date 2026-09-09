@@ -1,4 +1,4 @@
-package com.erebelo.springprofileservice.model.entity;
+package com.erebelo.springprofileservice.validation;
 
 import jakarta.validation.constraints.NotBlank;
 import lombok.Builder;

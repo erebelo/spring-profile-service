@@ -1,6 +1,5 @@
 package com.erebelo.springprofileservice.validation;
 
-import com.erebelo.springprofileservice.model.entity.SoftValidationFailure;
 import jakarta.validation.ConstraintViolation;
 import jakarta.validation.Path;
 import jakarta.validation.Validator;
@@ -13,12 +12,31 @@ import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+/**
+ * Validates entities using Bean Validation and separates violations into hard
+ * and soft validation failures.
+ * <p>
+ * Hard validation failures are returned as constraint violations, while soft
+ * validation failures are stored in the entity's {@code softValidationFailures}
+ * property.
+ */
 @Service
 @RequiredArgsConstructor
 public class ValidationService {
 
     private final Validator validator;
 
+    /**
+     * Validates the entity and separates hard and soft validation failures.
+     * <p>
+     * When soft validation failures are present, they are added to the entity's
+     * {@code softValidationFailures} property.
+     *
+     * @param entity
+     *            entity to validate
+     * @return hard validation violations, or an empty set when no hard violations
+     *         are present
+     */
     public Set<ConstraintViolation<Object>> validate(Object entity) {
         Set<ConstraintViolation<Object>> violations = validator.validate(entity);
 
