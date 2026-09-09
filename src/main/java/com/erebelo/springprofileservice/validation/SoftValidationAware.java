@@ -9,6 +9,6 @@ import java.util.List;
  */
 public interface SoftValidationAware {
 
-    void setSoftValidationFailures(List<SoftValidationFailure> failures);
+    void setSoftValidationFailures(List<SoftValidationFailure> softValidationFailures);
 
 }
