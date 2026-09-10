@@ -98,7 +98,7 @@
           "response": []
         },
         {
-          "name": "POST Upsert Hard-Validation",
+          "name": "POST Upsert Hard Validation",
           "request": {
             "method": "POST",
             "header": [],
@@ -125,7 +125,7 @@
           "response": []
         },
         {
-          "name": "POST Upsert Soft-Validation",
+          "name": "POST Upsert Soft Validation",
           "request": {
             "method": "POST",
             "header": [],

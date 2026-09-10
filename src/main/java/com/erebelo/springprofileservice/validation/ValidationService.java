@@ -48,7 +48,7 @@ public class ValidationService {
         }
 
         if (!(entity instanceof SoftValidationAware softValidationAware)) {
-            // No SoftValidationAware means everything is hard-validation.
+            // No SoftValidationAware means everything is hard validation
             return violations;
         }
 
