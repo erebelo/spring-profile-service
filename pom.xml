@@ -12,7 +12,8 @@
     <artifactId>spring-profile-service</artifactId>
     <version>0.0.1-SNAPSHOT</version>
     <name>spring-profile-service</name>
-    <description>Java project built with Spring Boot and MongoDB</description>
+    <description>Java project built with Spring Boot and MongoDB, featuring Jakarta Bean Validation with hard and soft validation support
+    </description>
 
     <repositories>
         <repository>

@@ -1,6 +1,6 @@
 # Spring Profile Service
 
-REST API developed with Java 21, Spring Boot 4, and MongoDB.
+REST API developed with Java 21, Spring Boot 4, and MongoDB, featuring Jakarta Bean Validation with hard and soft validation support.
 
 ## Requirements
 
