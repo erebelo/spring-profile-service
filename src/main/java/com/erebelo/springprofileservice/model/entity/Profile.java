@@ -9,7 +9,9 @@ import com.erebelo.springprofileservice.validation.SoftValidation;
 import com.erebelo.springprofileservice.validation.SoftValidationAware;
 import com.erebelo.springprofileservice.validation.SoftValidationFailure;
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.validation.Valid;
+import jakarta.validation.constraints.AssertTrue;
 import jakarta.validation.constraints.DecimalMax;
 import jakarta.validation.constraints.DecimalMin;
 import jakarta.validation.constraints.Max;
@@ -19,7 +21,10 @@ import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Pattern;
 import java.math.BigDecimal;
+import java.time.DateTimeException;
 import java.time.LocalDate;
+import java.time.Period;
+import java.time.ZoneOffset;
 import java.util.List;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -87,6 +92,22 @@ public class Profile extends BaseEntity implements SoftValidationAware {
     private Address address;
 
     private List<SoftValidationFailure> softValidationFailures;
+
+    @SoftValidation
+    @JsonIgnore
+    @AssertTrue(message = "'dateOfBirth' must be at least 18 years")
+    public boolean isAtLeast18YearsOld() {
+        if (dateOfBirth == null) {
+            return true;
+        }
+
+        try {
+            LocalDate today = LocalDate.now(ZoneOffset.UTC);
+            return Period.between(dateOfBirth, today).getYears() >= 18;
+        } catch (DateTimeException e) {
+            return false;
+        }
+    }
 
     @Override
     public String toString() {

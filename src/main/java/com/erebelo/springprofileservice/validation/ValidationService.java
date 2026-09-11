@@ -4,9 +4,14 @@ import jakarta.validation.ConstraintViolation;
 import jakarta.validation.ElementKind;
 import jakarta.validation.Path;
 import jakarta.validation.Validator;
+import java.beans.BeanInfo;
+import java.beans.IntrospectionException;
+import java.beans.Introspector;
+import java.beans.PropertyDescriptor;
 import java.lang.reflect.AnnotatedParameterizedType;
 import java.lang.reflect.AnnotatedType;
 import java.lang.reflect.Field;
+import java.lang.reflect.Method;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
@@ -75,8 +80,13 @@ public class ValidationService {
             return false;
         }
 
+        // TYPE_USE: e.g. List<@SoftValidation @NotBlank String> emailAddresses
         if (leafNode.getKind() == ElementKind.CONTAINER_ELEMENT) {
             return isSoftContainerElement(violation);
+        }
+
+        if (leafNode.getKind() != ElementKind.PROPERTY) {
+            return false;
         }
 
         Object leafBean = violation.getLeafBean();
@@ -85,9 +95,37 @@ public class ValidationService {
             return false;
         }
 
-        Field field = findField(leafBean.getClass(), leafNode.getName());
+        String propertyName = leafNode.getName();
 
-        return field != null && field.isAnnotationPresent(SoftValidation.class);
+        // FIELD: e.g. @SoftValidation @NotBlank String firstName
+        Field field = findField(leafBean.getClass(), propertyName);
+
+        if (field != null && field.isAnnotationPresent(SoftValidation.class)) {
+            return true;
+        }
+
+        // METHOD: e.g. @SoftValidation @AssertTrue boolean isAtLeast18YearsOld()
+        return isSoftValidationMethod(leafBean.getClass(), propertyName);
+    }
+
+    private boolean isSoftValidationMethod(Class<?> type, String propertyName) {
+        try {
+            BeanInfo beanInfo = Introspector.getBeanInfo(type);
+
+            for (PropertyDescriptor property : beanInfo.getPropertyDescriptors()) {
+                if (!property.getName().equals(propertyName)) {
+                    continue;
+                }
+
+                Method readMethod = property.getReadMethod();
+
+                return readMethod != null && readMethod.isAnnotationPresent(SoftValidation.class);
+            }
+        } catch (IntrospectionException ignored) {
+            return false;
+        }
+
+        return false;
     }
 
     private boolean isSoftContainerElement(ConstraintViolation<?> violation) {
