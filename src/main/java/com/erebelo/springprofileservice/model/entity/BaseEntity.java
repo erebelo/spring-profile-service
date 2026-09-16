@@ -1,6 +1,8 @@
 package com.erebelo.springprofileservice.model.entity;
 
+import com.erebelo.springprofileservice.validation.SoftValidationFailure;
 import java.time.Instant;
+import java.util.List;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -16,6 +18,8 @@ import org.springframework.data.annotation.Version;
 @NoArgsConstructor
 @AllArgsConstructor
 public abstract class BaseEntity {
+
+    private List<SoftValidationFailure> softValidationFailures;
 
     @CreatedBy
     private String createdBy;

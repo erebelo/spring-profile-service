@@ -3,6 +3,7 @@ package com.erebelo.springprofileservice.controller;
 import com.erebelo.springprofileservice.model.dto.request.ProfileRequest;
 import com.erebelo.springprofileservice.model.dto.response.ProfileResponse;
 import com.erebelo.springprofileservice.service.ProfileService;
+import com.erebelo.springprofileservice.validation.SoftValidationContext;
 import jakarta.validation.Valid;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
@@ -33,7 +34,14 @@ public class ProfileController {
     }
 
     @PostMapping
-    public ProfileResponse insert(@Valid @RequestBody ProfileRequest request) {
+    public ProfileResponse upsert(@Valid @RequestBody ProfileRequest request) {
         return service.upsert(request);
+    }
+
+    @PostMapping("/soft")
+    public ProfileResponse softUpsert(@Valid @RequestBody ProfileRequest request) {
+        try (SoftValidationContext.Scope ignored = SoftValidationContext.activate()) {
+            return service.upsert(request);
+        }
     }
 }

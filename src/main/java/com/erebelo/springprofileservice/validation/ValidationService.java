@@ -1,5 +1,6 @@
 package com.erebelo.springprofileservice.validation;
 
+import com.erebelo.springprofileservice.model.entity.BaseEntity;
 import jakarta.validation.ConstraintViolation;
 import jakarta.validation.ElementKind;
 import jakarta.validation.Path;
@@ -49,11 +50,15 @@ public class ValidationService {
         Set<ConstraintViolation<Object>> violations = validator.validate(entity);
 
         if (violations.isEmpty()) {
+            if (entity instanceof BaseEntity baseEntity) {
+                baseEntity.setSoftValidationFailures(null);
+            }
+
             return Set.of();
         }
 
-        if (!(entity instanceof SoftValidationAware softValidationAware)) {
-            // No SoftValidationAware means everything is hard validation
+        if (!SoftValidationContext.isActive()) {
+            // Soft validation is not active for this operation.
             return violations;
         }
 
@@ -68,7 +73,9 @@ public class ValidationService {
 
         List<SoftValidationFailure> failures = classified.get(true).stream().map(this::toFailure).toList();
 
-        softValidationAware.setSoftValidationFailures(failures.isEmpty() ? null : failures);
+        if (entity instanceof BaseEntity baseEntity) {
+            baseEntity.setSoftValidationFailures(failures.isEmpty() ? null : failures);
+        }
 
         return Set.of();
     }

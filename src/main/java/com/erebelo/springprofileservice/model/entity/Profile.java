@@ -6,8 +6,6 @@ import com.erebelo.springprofileservice.model.enums.ContactType;
 import com.erebelo.springprofileservice.model.enums.Gender;
 import com.erebelo.springprofileservice.model.enums.MaritalStatus;
 import com.erebelo.springprofileservice.validation.SoftValidation;
-import com.erebelo.springprofileservice.validation.SoftValidationAware;
-import com.erebelo.springprofileservice.validation.SoftValidationFailure;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.validation.Valid;
@@ -41,7 +39,7 @@ import org.springframework.data.mongodb.core.mapping.Document;
 @AllArgsConstructor
 @EqualsAndHashCode(callSuper = true)
 @Document(collection = "profiles")
-public class Profile extends BaseEntity implements SoftValidationAware {
+public class Profile extends BaseEntity {
 
     @Id
     private String id;
@@ -91,8 +89,6 @@ public class Profile extends BaseEntity implements SoftValidationAware {
     @NotNull
     private Address address;
 
-    private List<SoftValidationFailure> softValidationFailures;
-
     @SoftValidation
     @JsonIgnore
     @AssertTrue(message = "'dateOfBirth' must be at least 18 years")
@@ -115,8 +111,7 @@ public class Profile extends BaseEntity implements SoftValidationAware {
                 + (dateOfBirth != null ? "****-**-" + dateOfBirth.getDayOfMonth() : null) + ", numberOfDependents="
                 + numberOfDependents + ", estimatedAnnualIncome=" + estimatedAnnualIncome + ", estimatedNetWorth="
                 + estimatedNetWorth + ", gender=" + gender + ", maritalStatus=" + maritalStatus + ", emailAddresses="
-                + emailAddresses + ", contacts=" + contacts + ", address=" + address + ", softValidationFailures="
-                + softValidationFailures + "}";
+                + emailAddresses + ", contacts=" + contacts + ", address=" + address + "}";
     }
 
     @Data
