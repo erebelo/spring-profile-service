@@ -49,6 +49,10 @@ public class ValidationService {
         Set<ConstraintViolation<Object>> violations = validator.validate(entity);
 
         if (violations.isEmpty()) {
+            if (entity instanceof SoftValidationAware softValidationAware) {
+                softValidationAware.setSoftValidationFailures(null);
+            }
+
             return Set.of();
         }
 

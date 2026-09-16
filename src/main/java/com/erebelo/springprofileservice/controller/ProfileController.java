@@ -33,7 +33,7 @@ public class ProfileController {
     }
 
     @PostMapping
-    public ProfileResponse insert(@Valid @RequestBody ProfileRequest request) {
+    public ProfileResponse upsert(@Valid @RequestBody ProfileRequest request) {
         return service.upsert(request);
     }
 }
