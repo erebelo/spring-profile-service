@@ -131,7 +131,7 @@
             "header": [],
             "body": {
               "mode": "raw",
-              "raw": "{\r\n    \"firstName\": \"John\",\r\n    \"lastName\": \"Doe\",\r\n    \"dateOfBirth\": null,\r\n    \"numberOfDependents\": 21,\r\n    \"estimatedAnnualIncome\": 85000.50,\r\n    \"estimatedNetWorth\": 250000.75,\r\n    \"gender\": null,\r\n    \"maritalStatus\": null,\r\n    \"emailAddresses\": [\r\n        \"test..@example.com\",\r\n        \"john.doe@example.com\",\r\n        \"john@example\"\r\n    ],\r\n    \"contacts\": [\r\n        {\r\n            \"contactType\": null,\r\n            \"contactValue\": \"@john.doe\"\r\n        },\r\n        {\r\n            \"contactType\": \"PHONE\",\r\n            \"contactValue\": \"+5511999999999\"\r\n        },\r\n        {\r\n            \"contactValue\": \"@john.doe\"\r\n        }\r\n    ],\r\n    \"address\": {\r\n        \"addressLine1\": \" \",\r\n        \"addressLine2\": null,\r\n        \"city\": \"São Paulo\",\r\n        \"state\": null,\r\n        \"country\": \"Brazil\",\r\n        \"postalCode\": \"11310-100\"\r\n    }\r\n}",
+              "raw": "{\r\n    \"firstName\": \"John\",\r\n    \"lastName\": \"Doe\",\r\n    \"dateOfBirth\": \"2010-08-10\",\r\n    \"numberOfDependents\": 21,\r\n    \"estimatedAnnualIncome\": 85000.50,\r\n    \"estimatedNetWorth\": 250000.75,\r\n    \"gender\": null,\r\n    \"maritalStatus\": null,\r\n    \"emailAddresses\": [\r\n        \"test..@example.com\",\r\n        \"john.doe@example.com\",\r\n        \"john@example\"\r\n    ],\r\n    \"contacts\": [\r\n        {\r\n            \"contactType\": null,\r\n            \"contactValue\": \"@john.doe\"\r\n        },\r\n        {\r\n            \"contactType\": \"PHONE\",\r\n            \"contactValue\": \"+5511999999999\"\r\n        },\r\n        {\r\n            \"contactValue\": \"@john.doe\"\r\n        }\r\n    ],\r\n    \"address\": {\r\n        \"addressLine1\": \" \",\r\n        \"addressLine2\": null,\r\n        \"city\": \"São Paulo\",\r\n        \"state\": null,\r\n        \"country\": \"Brazil\",\r\n        \"postalCode\": \"11310-100\"\r\n    }\r\n}",
               "options": {
                 "raw": {
                   "language": "json"
@@ -139,13 +139,14 @@
               }
             },
             "url": {
-              "raw": "{{base_url}}/spring-profile-service/profiles",
+              "raw": "{{base_url}}/spring-profile-service/profiles/soft",
               "host": [
                 "{{base_url}}"
               ],
               "path": [
                 "spring-profile-service",
-                "profiles"
+                "profiles",
+                "soft"
               ]
             }
           },
